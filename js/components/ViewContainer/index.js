@@ -8,7 +8,7 @@ class ViewContainer extends React.Component {
         return (
             <View style={this.props.style || {}}>
             <StatusBar
-                backgroundColor={theme.TITLEBAR_COLOR}  barStyle="default" />
+                backgroundColor={theme.TITLEBAR_COLOR} />
                 {this.props.children}
             </View>
         );

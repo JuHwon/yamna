@@ -1,10 +1,10 @@
 
 const BACKGROUND_COLOR = '#ecf1f3';
-const TITLEBAR_COLOR = '#d3d7d9';
-const HEADER_COLOR = '#ecf1f3';
+const HEADER_COLOR = BACKGROUND_COLOR;
 const ACCENT_COLOR = '#1189cf';
 const FONT_COLOR = '#20333e';
 const NEUTRAL_COLOR = '#3d7ca1';
+const TITLEBAR_COLOR = NEUTRAL_COLOR;
 
 export default {
     BACKGROUND_COLOR,
