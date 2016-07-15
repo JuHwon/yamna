@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
 
-import Home from './container/Home';
+import Notes from './container/Notes';
 import NoteEditor from './container/NoteEditor';
 
 import theme from './theme';
@@ -22,8 +22,8 @@ class YamnaApp extends React.Component {
                 navigationBarStyle={styles.navigationBar}
                 titleStyle={styles.title}
                 leftButtonStyle={styles.leftButton}>
-                <Scene key="home" component={Home} title="Home" initial={true} />
-                <Scene key="editor" component={NoteEditor} title="Note Editor" />
+                <Scene key="home" component={Notes} title="All Notes" initial={true} />
+                <Scene key="editor" component={NoteEditor}  />
               </Scene>
             </Router>
         );
@@ -36,8 +36,6 @@ const styles = StyleSheet.create({
     },
     navigationBar: {
         backgroundColor: HEADER_COLOR,
-        padding: 0,
-        margin: 0,
         borderStyle: 'solid',
         borderBottomColor: NEUTRAL_COLOR,
         borderBottomWidth: 1,
