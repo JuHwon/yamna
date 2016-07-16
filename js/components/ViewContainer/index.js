@@ -3,16 +3,28 @@ import React from 'react';
 import {
     View,
     StatusBar,
+    Platform,
     StyleSheet
 } from 'react-native';
 import theme from '../../theme';
+
+const PlatformStatusBar = Platform.select({
+    ios: () => (
+        <StatusBar
+            backgroundColor={theme.TITLEBAR_COLOR}
+            barStyle={theme.IOS_BARSTYLE}/>
+        ),
+    android: () => (
+        <StatusBar
+            backgroundColor={theme.TITLEBAR_COLOR}/>
+        )
+});
 
 class ViewContainer extends React.Component {
     render() {
         return (
             <View style={[styles.container, this.props.style || {}]}>
-                <StatusBar
-                    backgroundColor={theme.TITLEBAR_COLOR} />
+                <PlatformStatusBar />
                 {this.props.children}
             </View>
         );
@@ -21,7 +33,14 @@ class ViewContainer extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 40
+        ...Platform.select({
+            android: {
+                marginTop: 40
+            },
+            ios: {
+                marginTop: 64
+            }
+        })
     }
 });
 

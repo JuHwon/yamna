@@ -5,6 +5,7 @@ const ACCENT_COLOR = '#1189cf';
 const FONT_COLOR = '#20333e';
 const NEUTRAL_COLOR = '#3d7ca1';
 const TITLEBAR_COLOR = NEUTRAL_COLOR;
+const IOS_BARSTYLE = 'default';
 
 export default {
     BACKGROUND_COLOR,
@@ -12,5 +13,6 @@ export default {
     TITLEBAR_COLOR,
     ACCENT_COLOR,
     FONT_COLOR,
-    NEUTRAL_COLOR
+    NEUTRAL_COLOR,
+    IOS_BARSTYLE
 };

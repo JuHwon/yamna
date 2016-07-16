@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
 
 import Notes from './container/Notes';
@@ -39,16 +39,24 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderBottomColor: NEUTRAL_COLOR,
         borderBottomWidth: 1,
-        height: 40
+        ...Platform.select({
+            android: {
+                height: 40
+            }
+        })
     },
     title: {
         color: FONT_COLOR,
-        margin: 0,
-        padding: 0,
-        marginTop: 2 // default: 10
+        ...Platform.select({
+            android:{
+                marginTop: 2 // default: 10
+            }
+        })
     },
     leftButton: {
-        top: 1
+        ...Platform.select({
+            top: 1
+        })
     }
 });
 
