@@ -1,4 +1,7 @@
+'ues strict';
+
 import React from 'react';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import {
     Text,
@@ -11,24 +14,13 @@ import {
 import ViewContainer from '../../components/ViewContainer';
 import theme from '../../theme';
 
-const notes = [{
-        title: 'Note 1',
-        content: 'This is an example Note.'
-    }, {
-        title: 'Note 2',
-        content: 'This is another example note.'
-    }, {
-        title: 'ReactJS Books',
-        content: 'A list of reactjs books.'
-    }];
-
 class Notes extends React.Component {
 
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
-            dataSource: ds.cloneWithRows(notes)
+            dataSource: ds.cloneWithRows(this.props.notes)
         };
     }
 
@@ -71,8 +63,6 @@ class Notes extends React.Component {
     }
 }
 
-export default Notes;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -100,3 +90,11 @@ const styles = StyleSheet.create({
         color: theme.ACCENT_COLOR
     }
 });
+
+const mapStateToProps = function(state) {
+    return {
+        notes: state.notes
+    };
+};
+
+export default connect(mapStateToProps)(Notes);
