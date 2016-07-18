@@ -55,7 +55,9 @@ const styles = StyleSheet.create({
     },
     leftButton: {
         ...Platform.select({
-            top: 1
+            android: {
+                top: 1
+            }
         })
     }
 });
