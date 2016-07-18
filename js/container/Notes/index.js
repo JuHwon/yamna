@@ -39,7 +39,10 @@ class Notes extends React.Component {
         const description = data.content;
         return (
             <TouchableHighlight onPress={() => {
-                    Actions.editor({ note: data });
+                    Actions.editor({
+                        note: data,
+                        title: data.title
+                    });
                 }}>
                 <View style={styles.row}>
                     <Text style={[styles.h2, styles.link]}>

@@ -14,9 +14,6 @@ class NoteEditor extends React.Component {
     }
 
     render() {
-        // this hack changes the Scene title. Mby there is a better solution
-        this.props.navigationState.title = this.props.note.title;
-
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>Edit Notes with Yamna!</Text>

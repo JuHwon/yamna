@@ -30,7 +30,7 @@ class YamnaApp extends React.Component {
                     titleStyle={styles.title}
                     leftButtonStyle={styles.leftButton}>
                     <Scene key="home" component={Notes} title="All Notes" initial={true} />
-                    <Scene key="editor" component={NoteEditor}  />
+                    <Scene key="editor" component={NoteEditor} title="Note Editor" />
                   </Scene>
                 </RouterWithRedux>
             </Provider>
