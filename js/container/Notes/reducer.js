@@ -1,4 +1,6 @@
 
+import { DELETE_NOTE } from './constants';
+
 const initialState = [{
         title: 'Note 1',
         content: 'This is an example Note.'
@@ -14,7 +16,12 @@ const initialState = [{
     }];
 
 const notes = ( state = initialState, action) => {
-    return state;
+    switch (action.type) {
+        case DELETE_NOTE:
+            return state.filter((note) => note !== action.payload);
+        default:
+            return state;
+    }
 };
 
 export default notes;

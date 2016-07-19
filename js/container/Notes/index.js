@@ -11,8 +11,17 @@ import {
     StyleSheet
 } from 'react-native';
 
+import Swipeout from 'react-native-swipeout';
+
+import { deleteNote } from './actions';
+
 import ViewContainer from '../../components/ViewContainer';
 import theme from '../../theme';
+const {
+    BACKGROUND_COLOR,
+    FONT_COLOR,
+    ACCENT_COLOR
+} = theme;
 
 class Notes extends React.Component {
 
@@ -24,35 +33,60 @@ class Notes extends React.Component {
         };
     }
 
+    componentWillReceiveProps (nextProps) {
+        if (nextProps !== this.props) {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.notes)
+            });
+        }
+    }
+
     render() {
         return (
             <ViewContainer style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    renderSeparator={this._renderSeperator}/>
+                    renderRow={this._renderRow.bind(this)}
+                    renderSeparator={this._renderSeperator.bind(this)}/>
             </ViewContainer>
         );
     }
 
+    deleteNote(note) {
+        const { dispatch } = this.props;
+        dispatch(deleteNote(note));
+    }
+
     _renderRow(data, sectionId, rowId, highlightRow) {
         const description = data.content;
+        const swipeButtons = [{
+            text: 'Delete',
+            type: 'primary',
+            onPress: this.deleteNote.bind(this, data),
+            backgroundColor: 'red'
+        }];
+
         return (
-            <TouchableHighlight onPress={() => {
-                    Actions.editor({
-                        note: data,
-                        title: data.title
-                    });
-                }}>
-                <View style={styles.row}>
-                    <Text style={[styles.h2, styles.link]}>
-                        {data.title}
-                    </Text>
-                    <Text style={styles.text}>
-                        {description}
-                    </Text>
-                </View>
-            </TouchableHighlight>
+            <Swipeout
+                backgroundColor={BACKGROUND_COLOR}
+                right={swipeButtons}
+                autoClose={true}>
+                <TouchableHighlight onPress={() => {
+                        Actions.editor({
+                            note: data,
+                            title: data.title
+                        });
+                    }}>
+                    <View style={styles.row}>
+                        <Text style={[styles.h2, styles.link]}>
+                            {data.title}
+                        </Text>
+                        <Text style={styles.text}>
+                            {description}
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+            </Swipeout>
         );
     }
 
@@ -70,13 +104,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: theme.BACKGROUND_COLOR
+        backgroundColor: BACKGROUND_COLOR
     },
     row: {
+        padding: 10,
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: 10,
-        backgroundColor: theme.BACKGROUND_COLOR
+        backgroundColor: BACKGROUND_COLOR
     },
     seperator: {
         height: 1,
@@ -84,13 +118,13 @@ const styles = StyleSheet.create({
     },
     h2: {
         fontWeight: 'bold',
-        color: theme.FONT_COLOR
+        color: FONT_COLOR
     },
     text: {
-        color: theme.FONT_COLOR
+        color: FONT_COLOR
     },
     link: {
-        color: theme.ACCENT_COLOR
+        color: ACCENT_COLOR
     }
 });
 
