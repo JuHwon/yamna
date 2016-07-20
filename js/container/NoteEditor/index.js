@@ -14,10 +14,11 @@ class NoteEditor extends React.Component {
     }
 
     render() {
+        const { note } = this.props;
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>Edit Notes with Yamna!</Text>
-                <Text style={styles.text}>Note: {this.props.note.title}</Text>
+                <Text style={styles.text}>Note: {note.get('title')}</Text>
                 <Text style={styles.text}>NOTE EDITOR SCREEN</Text>
             </View>
         );

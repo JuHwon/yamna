@@ -11,6 +11,8 @@ import {
     StyleSheet
 } from 'react-native';
 
+import { is } from 'immutable';
+
 import Swipeout from 'react-native-swipeout';
 
 import { deleteNote } from './actions';
@@ -27,16 +29,16 @@ class Notes extends React.Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => !is(r1, r2) });
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.notes)
+            dataSource: ds.cloneWithRows(this.props.notes.toArray())
         };
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps !== this.props) {
+        if (!nextProps.notes.equals(this.props.notes)) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.notes)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.notes.toArray())
             });
         }
     }
@@ -58,7 +60,7 @@ class Notes extends React.Component {
     }
 
     _renderRow(data, sectionId, rowId, highlightRow) {
-        const description = data.content;
+        const description = data.get('content');
         const swipeButtons = [{
             text: 'Delete',
             type: 'primary',
@@ -74,12 +76,12 @@ class Notes extends React.Component {
                 <TouchableHighlight onPress={() => {
                         Actions.editor({
                             note: data,
-                            title: data.title
+                            title: data.get('title')
                         });
                     }}>
                     <View style={styles.row}>
                         <Text style={[styles.h2, styles.link]}>
-                            {data.title}
+                            {data.get('title')}
                         </Text>
                         <Text style={styles.text}>
                             {description}
