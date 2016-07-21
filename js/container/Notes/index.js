@@ -55,8 +55,8 @@ class Notes extends React.Component {
     }
 
     deleteNote(note) {
-        const { dispatch } = this.props;
-        dispatch(deleteNote(note));
+        const { removeNote } = this.props;
+        removeNote(note);
     }
 
     _renderRow(data, sectionId, rowId, highlightRow) {
@@ -130,10 +130,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = function(state) {
-    return {
-        notes: state.notes
-    };
-};
+const mapStateToProps = ({ notes }) => ({
+    notes
+});
 
-export default connect(mapStateToProps)(Notes);
+const mapDispatchToProps = (dispatch) => ({
+    removeNote: (note) => {
+        dispatch(deleteNote(note));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notes);

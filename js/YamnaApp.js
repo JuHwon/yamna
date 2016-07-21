@@ -28,8 +28,9 @@ class YamnaApp extends React.Component {
                     key="root"
                     navigationBarStyle={styles.navigationBar}
                     titleStyle={styles.title}
-                    leftButtonStyle={styles.leftButton}>
-                    <Scene key="home" component={Notes} title="All Notes" initial={true} />
+                    leftButtonStyle={styles.navigationButton}
+                    rightButtonStyle={styles.navigationButton}>
+                    <Scene key="notes" component={Notes} title="All Notes" initial={true} />
                     <Scene key="editor" component={NoteEditor} title="Note Editor" />
                   </Scene>
                 </RouterWithRedux>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
             }
         })
     },
-    leftButton: {
+    navigationButton: {
         ...Platform.select({
             android: {
                 top: 1
