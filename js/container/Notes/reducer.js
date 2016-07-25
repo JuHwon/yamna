@@ -4,7 +4,7 @@ import {
     ADD_NOTE
 } from './constants';
 import { fromJS } from 'immutable';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 
 const initialState = fromJS([{
         id: uuid.v4(),
