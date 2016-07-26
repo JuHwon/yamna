@@ -3,12 +3,17 @@ import { Platform, StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
 import { Provider, connect } from 'react-redux';
 import configureStore from './store';
-
+import {
+    ROUTE_NOTES,
+    ROUTE_EDITOR
+} from './constants';
+import { injectSagas } from './util/hooks';
 import Notes from './container/Notes';
 import NoteEditor from './container/NoteEditor';
 
 const initialState = {};
 const store = configureStore(initialState);
+injectSagas(store);
 const RouterWithRedux = connect()(Router);
 
 import theme from './theme';
@@ -30,8 +35,8 @@ class YamnaApp extends React.Component {
                     titleStyle={styles.title}
                     leftButtonStyle={styles.navigationButton}
                     rightButtonStyle={styles.navigationButton}>
-                    <Scene key="notes" component={Notes} title="All Notes" initial={true} />
-                    <Scene key="editor" component={NoteEditor} title="Note Editor" />
+                    <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
+                    <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
                   </Scene>
                 </RouterWithRedux>
             </Provider>

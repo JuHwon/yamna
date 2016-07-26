@@ -2,6 +2,8 @@ import {
     DELETE_NOTE,
     ADD_NOTE
 } from './constants';
+import { fromJS } from 'immutable';
+import uuid from 'uuid';
 
 export const deleteNote = (note) => ({
     type: DELETE_NOTE,
@@ -9,6 +11,10 @@ export const deleteNote = (note) => ({
 });
 
 export const addNote = () => ({
-    type: ADD_NOTE
+    type: ADD_NOTE,
+    payload: fromJS({
+        id: uuid.v4(),
+        title: 'Untitled Note',
+        content: ''
+    })
 });
-

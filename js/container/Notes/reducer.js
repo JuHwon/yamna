@@ -29,11 +29,7 @@ const notes = ( state = initialState, action) => {
         case DELETE_NOTE:
             return state.filter((note) => !note.equals(action.payload));
         case ADD_NOTE:
-            return state.push(fromJS({
-                id: uuid.v4(),
-                title: 'New Note',
-                content: ''
-            }));
+            return state.push(action.payload);
         default:
             return state;
     }
