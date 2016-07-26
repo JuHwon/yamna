@@ -15,7 +15,7 @@ import { is } from 'immutable';
 
 import Swipeout from 'react-native-swipeout';
 
-import { deleteNote } from './actions';
+import { deleteNote, editNote } from './actions';
 import { ROUTE_EDITOR } from '../../constants';
 import ViewContainer from '../../components/ViewContainer';
 import theme from '../../theme';
@@ -74,10 +74,7 @@ class Notes extends React.Component {
                 right={swipeButtons}
                 autoClose={true}>
                 <TouchableHighlight onPress={() => {
-                        Actions[ROUTE_EDITOR]({
-                            note: data,
-                            title: data.get('title')
-                        });
+                        this.props.editNote(data);
                     }}>
                     <View style={styles.row}>
                         <Text style={[styles.h2, styles.link]}>
@@ -137,6 +134,9 @@ const mapStateToProps = ({ notes }) => ({
 const mapDispatchToProps = (dispatch) => ({
     removeNote: (note) => {
         dispatch(deleteNote(note));
+    },
+    editNote: (note) => {
+        dispatch(editNote(note));
     }
 });
 

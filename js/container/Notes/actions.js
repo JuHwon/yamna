@@ -1,6 +1,7 @@
 import {
     DELETE_NOTE,
-    ADD_NOTE
+    ADD_NOTE,
+    EDIT_NOTE
 } from './constants';
 import { fromJS } from 'immutable';
 import uuid from 'uuid';
@@ -17,4 +18,9 @@ export const addNote = () => ({
         title: 'Untitled Note',
         content: ''
     })
+});
+
+export const editNote = (note) => ({
+    type: EDIT_NOTE,
+    payload: note
 });
