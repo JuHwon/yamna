@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
+import { is } from 'immutable';
 import {
     Text,
     View,
@@ -10,14 +10,9 @@ import {
     TouchableHighlight,
     StyleSheet
 } from 'react-native';
-
-import { is } from 'immutable';
-
 import Swipeout from 'react-native-swipeout';
-
-import { deleteNote, editNote } from './actions';
-import { ROUTE_EDITOR } from '../../constants';
 import ViewContainer from '../../components/ViewContainer';
+import { deleteNote, editNote } from './actions';
 import theme from '../../theme';
 const {
     BACKGROUND_COLOR,
@@ -128,7 +123,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ notes }) => ({
-    notes
+    notes: notes.get('notes')
 });
 
 const mapDispatchToProps = (dispatch) => ({

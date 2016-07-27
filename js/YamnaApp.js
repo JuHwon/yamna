@@ -1,19 +1,14 @@
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
-import { Provider, connect } from 'react-redux';
-import configureStore from './store';
+import { connect } from 'react-redux';
 import {
     ROUTE_NOTES,
     ROUTE_EDITOR
 } from './constants';
-import { injectSagas } from './util/hooks';
 import Notes from './container/Notes';
 import NoteEditor from './container/NoteEditor';
 
-const initialState = {};
-const store = configureStore(initialState);
-injectSagas(store);
 const RouterWithRedux = connect()(Router);
 
 import theme from './theme';
@@ -27,19 +22,17 @@ const {
 class YamnaApp extends React.Component {
     render() {
         return (
-            <Provider store={store}>
-                <RouterWithRedux sceneStyle={styles.container}>
-                  <Scene
-                    key="root"
-                    navigationBarStyle={styles.navigationBar}
-                    titleStyle={styles.title}
-                    leftButtonStyle={styles.navigationButton}
-                    rightButtonStyle={styles.navigationButton}>
-                    <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
-                    <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
-                  </Scene>
-                </RouterWithRedux>
-            </Provider>
+            <RouterWithRedux sceneStyle={styles.container}>
+              <Scene
+                key="root"
+                navigationBarStyle={styles.navigationBar}
+                titleStyle={styles.title}
+                leftButtonStyle={styles.navigationButton}
+                rightButtonStyle={styles.navigationButton}>
+                <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
+                <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
+              </Scene>
+            </RouterWithRedux>
         );
     }
 }
@@ -77,4 +70,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default YamnaApp;
+export default connect()(YamnaApp);
