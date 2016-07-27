@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-    TextInput,
     StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
 import { updateNote } from '../Notes/actions';
 import ViewContainer from '../../components/ViewContainer';
+import MarkdownEditor from '../../components/MarkdownEditor';
 import theme from '../../theme';
 
 class NoteEditor extends React.Component {
@@ -18,12 +18,11 @@ class NoteEditor extends React.Component {
         const { note } = this.props;
         return (
             <ViewContainer style={styles.container}>
-                <TextInput
+                <MarkdownEditor
                     placeholder="Type in your note here..."
-                    style={styles.content}
-                    multiline={true}
+                    style={styles.editor}
                     onChangeText={ this.onTextChange.bind(this) }
-                    value={note.get('content')}/>
+                    text={note.get('content')}/>
             </ViewContainer>
         );
     }
@@ -42,12 +41,8 @@ const styles = StyleSheet.create({
     text: {
         color: theme.FONT_COLOR
     },
-    content: {
-        flex: 1,
-        borderWidth: 0,
-        fontSize: 13,
-        padding: 8,
-        textAlignVertical: 'top'
+    editor: {
+        flex: 1
     }
 });
 
