@@ -21,6 +21,7 @@ const {
 
 class YamnaApp extends React.Component {
     render() {
+        const styles = getStyles(this.props.colors);
         return (
             <RouterWithRedux sceneStyle={styles.container}>
               <Scene
@@ -37,14 +38,14 @@ class YamnaApp extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
     container: {
-        backgroundColor: BACKGORUND_COLOR
+        backgroundColor: colors.get('BACKGORUND_COLOR')
     },
     navigationBar: {
-        backgroundColor: HEADER_COLOR,
+        backgroundColor: colors.get('HEADER_COLOR'),
         borderStyle: 'solid',
-        borderBottomColor: NEUTRAL_COLOR,
+        borderBottomColor: colors.get('NEUTRAL_COLOR'),
         borderBottomWidth: 1,
         ...Platform.select({
             android: {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
         })
     },
     title: {
-        color: FONT_COLOR,
+        color: colors.get('FONT_COLOR'),
         ...Platform.select({
             android:{
                 marginTop: 2 // default: 10
@@ -70,4 +71,9 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect()(YamnaApp);
+const mapStateToProps = ({ theme }) => ({
+    colors: theme.get('colors')
+});
+
+
+export default connect(mapStateToProps)(YamnaApp);

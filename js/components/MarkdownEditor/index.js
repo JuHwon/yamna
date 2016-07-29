@@ -4,6 +4,12 @@ import {
     TextInput,
     StyleSheet
 } from 'react-native';
+import theme from '../../theme';
+
+const h1Exp = /^# .+/;
+const h2Exp = /^## .+/;
+const h3Exp = /^### .+/;
+const linkExp = /\[.+\]\(.+\)/;
 
 class MarkdownEditor extends React.Component {
     render() {
@@ -49,11 +55,23 @@ class MarkdownEditor extends React.Component {
 
     getMarkdownTags(text) {
         //TODO: impl markdown here
-        if (/^# /.test(text)) {
+        if (h1Exp.test(text)) {
             return <Text key={text} style={styles.h1}>{text}</Text>;
-        } else {
-            return text;
         }
+
+        if (h2Exp.test(text)) {
+            return <Text key={text} style={styles.h2}>{text}</Text>;
+        }
+
+        if (h3Exp.test(text)) {
+            return <Text key={text} style={styles.h3}>{text}</Text>;
+        }
+
+        if (linkExp.test(text)) {
+            return <Text key={text} style={styles.link}>{text}</Text>;
+        }
+
+        return text;
     }
 }
 
@@ -73,7 +91,21 @@ const styles = StyleSheet.create({
     },
     h1: {
         fontWeight: 'bold',
-        fontSize: 16
+        color: theme.FONT_COLOR,
+        fontSize: 24
+    },
+    h2: {
+        fontWeight: 'bold',
+        color: theme.FONT_COLOR,
+        fontSize: 21
+    },
+    h3: {
+        fontWeight: 'bold',
+        color: theme.FONT_COLOR,
+        fontSize: 18
+    },
+    link: {
+        color: theme.ACCENT_COLOR
     }
 });
 

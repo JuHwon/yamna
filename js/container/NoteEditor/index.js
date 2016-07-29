@@ -15,6 +15,7 @@ class NoteEditor extends React.Component {
     }
 
     render() {
+        const styles = getStyles(this.props.colors);
         const { note } = this.props;
         return (
             <ViewContainer style={styles.container}>
@@ -32,24 +33,26 @@ class NoteEditor extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'stretch',
-        backgroundColor: theme.BACKGROUND_COLOR
+        backgroundColor: colors.get('BACKGROUND_COLOR')
     },
     text: {
-        color: theme.FONT_COLOR
+        color: colors.get('FONT_COLOR')
     },
     editor: {
-        flex: 1
+        flex: 1,
+        color: colors.get('FONT_COLOR')
     }
 });
 
-const mapStateToProps = ({ notes }) => {
+const mapStateToProps = ({ notes, theme }) => {
     const selectedNoteId = notes.get('selectedNote');
     return {
-        note: notes.get('notes').find((note) => note.get('id') === selectedNoteId)
+        note: notes.get('notes').find((note) => note.get('id') === selectedNoteId),
+        colors: theme.get('colors')
     };
 };
 
