@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import { Scene, Router } from 'react-native-router-flux';
+import { Scene, Router, NavBar } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import {
     ROUTE_NOTES,
@@ -11,40 +11,46 @@ import NoteEditor from './container/NoteEditor';
 
 const RouterWithRedux = connect()(Router);
 
-import theme from './theme';
-const {
-    BACKGORUND_COLOR,
-    HEADER_COLOR,
-    FONT_COLOR,
-    NEUTRAL_COLOR
-} = theme;
+class YamnaNavBarComp extends React.Component {
+    render() {
+        const styles = getStyles(this.props.colors);
+        return (
+            <NavBar {...this.props}
+                navigationBarStyle={styles.navigationBar}
+                titleStyle={styles.title}
+                leftButtonStyle={styles.navigationButton}
+                rightButtonStyle={styles.navigationButton}/>
+        );
+    }
+}
+
+const mapStateToProps = ({ theme }) => ({
+    colors: theme.get('colors')
+});
+
+const YamnaNavBar = connect(mapStateToProps)(YamnaNavBarComp);
 
 class YamnaApp extends React.Component {
     render() {
         return (
-            <RouterWithRedux sceneStyle={styles.container}>
-              <Scene
-                key="root"
-                navigationBarStyle={styles.navigationBar}
-                titleStyle={styles.title}
-                leftButtonStyle={styles.navigationButton}
-                rightButtonStyle={styles.navigationButton}>
-                <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
-                <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
-              </Scene>
+            <RouterWithRedux>
+                <Scene key="root" navBar={YamnaNavBar} >
+                    <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
+                    <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
+                </Scene>
             </RouterWithRedux>
         );
     }
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
     container: {
-        backgroundColor: BACKGORUND_COLOR
+        // backgroundColor: colors.get('BACKGORUND_COLOR')
     },
     navigationBar: {
-        backgroundColor: HEADER_COLOR,
+        backgroundColor: colors.get('HEADER_COLOR'),
         borderStyle: 'solid',
-        borderBottomColor: NEUTRAL_COLOR,
+        borderBottomColor: colors.get('NEUTRAL_COLOR'),
         borderBottomWidth: 1,
         ...Platform.select({
             android: {
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
         })
     },
     title: {
-        color: FONT_COLOR,
+        color: colors.get('FONT_COLOR'),
         ...Platform.select({
             android:{
                 marginTop: 2 // default: 10
@@ -69,5 +75,4 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default connect()(YamnaApp);
+export default YamnaApp;

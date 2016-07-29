@@ -10,9 +10,11 @@ import routes from './routes';
  * Creates the main reducer with the asynchronously loaded ones
  */
 import notesReducer from './container/Notes/reducer';
+import theme from './theme/reducer';
 export default function createReducer(asyncReducers) {
   return combineReducers({
     routes,
+    theme,
     notes: notesReducer,
     ...asyncReducers
   });

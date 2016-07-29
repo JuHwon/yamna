@@ -1,5 +1,6 @@
 import { ActionConst } from 'react-native-router-flux';
 import { addNote } from './container/Notes/actions';
+import { toggleTheme } from './theme/actions';
 import { ROUTE_NOTES } from './constants';
 
 const initialState = {
@@ -15,6 +16,10 @@ function getScene(action) {
           rightTitle: 'Add',
           onRight: ({ dispatch }) => {
             dispatch(addNote());
+          },
+          leftTitle: 'Toggle',
+          onLeft: ({ dispatch }) => {
+            dispatch(toggleTheme());
           }
         });
     default:

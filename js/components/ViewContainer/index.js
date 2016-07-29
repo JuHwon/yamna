@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import {
     View,
@@ -6,30 +6,29 @@ import {
     Platform,
     StyleSheet
 } from 'react-native';
-import theme from '../../theme';
-
-const PlatformStatusBar = Platform.select({
-    ios: () => (
-        <StatusBar
-            backgroundColor={theme.TITLEBAR_COLOR}
-            barStyle={theme.IOS_BARSTYLE}/>
-        ),
-    android: () => (
-        <StatusBar
-            backgroundColor={theme.TITLEBAR_COLOR}/>
-        )
-});
 
 class ViewContainer extends React.Component {
     render() {
         return (
             <View style={[styles.container, this.props.style || {}]}>
-                <PlatformStatusBar />
+                {this.renderStatusBar.call(this)}
                 {this.props.children}
             </View>
         );
     }
+
+    renderStatusBar() {
+        const { iosBarStyle, androidBarBgColor } = this.props;
+        return <StatusBar
+                    barStyle={iosBarStyle}
+                    backgroundColor={androidBarBgColor}/>;
+    }
 }
+
+ViewContainer.propTypes = {
+    iosBarStyle: PropTypes.string.isRequired,
+    androidBarBgColor: PropTypes.string.isRequired
+};
 
 const styles = StyleSheet.create({
     container: {

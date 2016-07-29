@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { updateNote } from '../Notes/actions';
 import ViewContainer from '../../components/ViewContainer';
 import MarkdownEditor from '../../components/MarkdownEditor';
-import theme from '../../theme';
 
 class NoteEditor extends React.Component {
 
@@ -15,12 +14,18 @@ class NoteEditor extends React.Component {
     }
 
     render() {
+        const styles = getStyles(this.props.colors);
         const { note } = this.props;
         return (
-            <ViewContainer style={styles.container}>
+            <ViewContainer
+                iosBarStyle={this.props.colors.get('IOS_BARSTYLE')}
+                androidBarBgColor={this.props.colors.get('TITLEBAR_COLOR')}
+                style={styles.container}>
                 <MarkdownEditor
                     placeholder="Type in your note here..."
                     style={styles.editor}
+                    fontColor={this.props.colors.get('FONT_COLOR')}
+                    highlightColor={this.props.colors.get('ACCENT_COLOR')}
                     onChangeText={ this.onTextChange.bind(this) }
                     text={note.get('content')}/>
             </ViewContainer>
@@ -32,24 +37,23 @@ class NoteEditor extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'stretch',
-        backgroundColor: theme.BACKGROUND_COLOR
-    },
-    text: {
-        color: theme.FONT_COLOR
+        backgroundColor: colors.get('BACKGROUND_COLOR')
     },
     editor: {
-        flex: 1
+        flex: 1,
+        color: colors.get('FONT_COLOR')
     }
 });
 
-const mapStateToProps = ({ notes }) => {
+const mapStateToProps = ({ notes, theme }) => {
     const selectedNoteId = notes.get('selectedNote');
     return {
-        note: notes.get('notes').find((note) => note.get('id') === selectedNoteId)
+        note: notes.get('notes').find((note) => note.get('id') === selectedNoteId),
+        colors: theme.get('colors')
     };
 };
 

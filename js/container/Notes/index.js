@@ -13,34 +13,37 @@ import {
 import Swipeout from 'react-native-swipeout';
 import ViewContainer from '../../components/ViewContainer';
 import { deleteNote, editNote } from './actions';
-import theme from '../../theme';
-const {
-    BACKGROUND_COLOR,
-    FONT_COLOR,
-    ACCENT_COLOR
-} = theme;
 
 class Notes extends React.Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => !is(r1, r2) });
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => {
+            return !is(r1, r2);
+        }});
+        let rowData = this._getRowData(this.props.notes, this.props.colors);
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.notes.toArray())
+            dataSource: ds.cloneWithRows(rowData)
         };
     }
 
     componentWillReceiveProps (nextProps) {
-        if (!nextProps.notes.equals(this.props.notes)) {
+        if (!nextProps.notes.equals(this.props.notes) ||
+            !nextProps.colors.equals(this.props.colors)) {
+            let newData = this._getRowData(nextProps.notes, nextProps.colors);
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.notes.toArray())
+                dataSource: this.state.dataSource.cloneWithRows(newData)
             });
         }
     }
 
     render() {
+        const styles = getStyles(this.props.colors);
         return (
-            <ViewContainer style={styles.container}>
+            <ViewContainer
+                iosBarStyle={this.props.colors.get('IOS_BARSTYLE')}
+                androidBarBgColor={this.props.colors.get('TITLEBAR_COLOR')}
+                style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
@@ -54,7 +57,13 @@ class Notes extends React.Component {
         removeNote(note);
     }
 
+    _getRowData (notes, colors) {
+        return notes.toArray().map((note) => note.set('colors', colors));
+    }
+
     _renderRow(data, sectionId, rowId, highlightRow) {
+        const styles = getStyles(this.props.colors);
+
         const description = data.get('content') || 'No Content.';
         const swipeButtons = [{
             text: 'Delete',
@@ -65,7 +74,7 @@ class Notes extends React.Component {
 
         return (
             <Swipeout
-                backgroundColor={BACKGROUND_COLOR}
+                backgroundColor={this.props.colors.get('BACKGROUND_COLOR')}
                 right={swipeButtons}
                 autoClose={true}>
                 <TouchableHighlight onPress={() => {
@@ -85,6 +94,7 @@ class Notes extends React.Component {
     }
 
     _renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+        const styles = getStyles(this.props.colors);
         return (rowID &&
             <View
                 key={`${sectionID}-${rowID}`}
@@ -94,17 +104,17 @@ class Notes extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: BACKGROUND_COLOR
+        backgroundColor: colors.get('BACKGROUND_COLOR')
     },
     row: {
         padding: 10,
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: BACKGROUND_COLOR
+        backgroundColor: colors.get('BACKGROUND_COLOR')
     },
     seperator: {
         height: 1,
@@ -112,18 +122,20 @@ const styles = StyleSheet.create({
     },
     h2: {
         fontWeight: 'bold',
-        color: FONT_COLOR
+        color: colors.get('FONT_COLOR')
     },
     text: {
-        color: FONT_COLOR
+        color: colors.get('FONT_COLOR')
     },
     link: {
-        color: ACCENT_COLOR
+        color: colors.get('ACCENT_COLOR')
     }
 });
 
-const mapStateToProps = ({ notes }) => ({
-    notes: notes.get('notes')
+
+const mapStateToProps = ({ notes, theme }) => ({
+    notes: notes.get('notes'),
+    colors: theme.get('colors')
 });
 
 const mapDispatchToProps = (dispatch) => ({
