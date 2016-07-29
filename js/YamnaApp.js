@@ -11,14 +11,6 @@ import NoteEditor from './container/NoteEditor';
 
 const RouterWithRedux = connect()(Router);
 
-import theme from './theme';
-const {
-    BACKGORUND_COLOR,
-    HEADER_COLOR,
-    FONT_COLOR,
-    NEUTRAL_COLOR
-} = theme;
-
 class YamnaApp extends React.Component {
     render() {
         const styles = getStyles(this.props.colors);

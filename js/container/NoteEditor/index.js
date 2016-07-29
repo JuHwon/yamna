@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { updateNote } from '../Notes/actions';
 import ViewContainer from '../../components/ViewContainer';
 import MarkdownEditor from '../../components/MarkdownEditor';
-import theme from '../../theme';
 
 class NoteEditor extends React.Component {
 

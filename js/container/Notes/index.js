@@ -18,9 +18,11 @@ class Notes extends React.Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => !is(r1, r2) });
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => {
+            return !is(r1, r2);
+        }});
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.notes.toArray())
+            dataSource: ds.cloneWithRows(this._getRowData(this.props.notes, this.props.colors))
         };
     }
 
@@ -28,7 +30,7 @@ class Notes extends React.Component {
         if (!nextProps.notes.equals(this.props.notes) ||
             !nextProps.colors.equals(this.props.colors)) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.notes.toArray())
+                dataSource: this.state.dataSource.cloneWithRows(this._getRowData(nextProps.notes, nextProps.colors))
             });
         }
     }
@@ -48,6 +50,10 @@ class Notes extends React.Component {
     deleteNote(note) {
         const { removeNote } = this.props;
         removeNote(note);
+    }
+
+    _getRowData (notes, colors) {
+        return notes.toArray().map((note) => note.set('colors', colors));
     }
 
     _renderRow(data, sectionId, rowId, highlightRow) {
