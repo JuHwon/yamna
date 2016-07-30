@@ -21,16 +21,18 @@ class Notes extends React.Component {
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => {
             return !is(r1, r2);
         }});
+        let rowData = this._getRowData(this.props.notes, this.props.colors);
         this.state = {
-            dataSource: ds.cloneWithRows(this._getRowData(this.props.notes, this.props.colors))
+            dataSource: ds.cloneWithRows(rowData)
         };
     }
 
     componentWillReceiveProps (nextProps) {
         if (!nextProps.notes.equals(this.props.notes) ||
             !nextProps.colors.equals(this.props.colors)) {
+            let newData = this._getRowData(nextProps.notes, nextProps.colors);
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this._getRowData(nextProps.notes, nextProps.colors))
+                dataSource: this.state.dataSource.cloneWithRows(newData)
             });
         }
     }

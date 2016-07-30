@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import { Scene, Router } from 'react-native-router-flux';
+import { Scene, Router, NavBar } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import {
     ROUTE_NOTES,
@@ -11,20 +11,33 @@ import NoteEditor from './container/NoteEditor';
 
 const RouterWithRedux = connect()(Router);
 
-class YamnaApp extends React.Component {
+class YamnaNavBarComp extends React.Component {
     render() {
         const styles = getStyles(this.props.colors);
         return (
-            <RouterWithRedux sceneStyle={styles.container}>
-              <Scene
-                key="root"
+            <NavBar {...this.props}
                 navigationBarStyle={styles.navigationBar}
                 titleStyle={styles.title}
                 leftButtonStyle={styles.navigationButton}
-                rightButtonStyle={styles.navigationButton}>
-                <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
-                <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
-              </Scene>
+                rightButtonStyle={styles.navigationButton}/>
+        );
+    }
+}
+
+const mapStateToProps = ({ theme }) => ({
+    colors: theme.get('colors')
+});
+
+const YamnaNavBar = connect(mapStateToProps)(YamnaNavBarComp);
+
+class YamnaApp extends React.Component {
+    render() {
+        return (
+            <RouterWithRedux>
+                <Scene key="root" navBar={YamnaNavBar} >
+                    <Scene key={ROUTE_NOTES} component={Notes} title="All Notes" initial={true} />
+                    <Scene key={ROUTE_EDITOR} component={NoteEditor} title="Note Editor" />
+                </Scene>
             </RouterWithRedux>
         );
     }
@@ -32,7 +45,7 @@ class YamnaApp extends React.Component {
 
 const getStyles = (colors) => StyleSheet.create({
     container: {
-        backgroundColor: colors.get('BACKGORUND_COLOR')
+        // backgroundColor: colors.get('BACKGORUND_COLOR')
     },
     navigationBar: {
         backgroundColor: colors.get('HEADER_COLOR'),
@@ -62,10 +75,4 @@ const getStyles = (colors) => StyleSheet.create({
     }
 });
 
-
-const mapStateToProps = ({ theme }) => ({
-    colors: theme.get('colors')
-});
-
-
-export default connect(mapStateToProps)(YamnaApp);
+export default YamnaApp;
