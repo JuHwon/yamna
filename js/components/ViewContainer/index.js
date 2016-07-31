@@ -6,9 +6,6 @@ import {
     Platform,
     StyleSheet
 } from 'react-native';
-import theme from '../../theme';
-
-
 
 class ViewContainer extends React.Component {
     render() {

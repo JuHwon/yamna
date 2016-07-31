@@ -3,7 +3,7 @@ import { Text, StyleSheet } from 'react-native';
 
 class H2 extends React.Component {
 	render() {
-		return <Text style={styles.container} {...this.props} />
+		return <Text style={styles.container} {...this.props} />;
 	}
 }
 
