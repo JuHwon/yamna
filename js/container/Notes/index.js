@@ -40,7 +40,10 @@ class Notes extends React.Component {
     render() {
         const styles = getStyles(this.props.colors);
         return (
-            <ViewContainer style={styles.container}>
+            <ViewContainer
+                iosBarStyle={this.props.colors.get('IOS_BARSTYLE')}
+                androidBarBgColor={this.props.colors.get('TITLEBAR_COLOR')}
+                style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}

@@ -17,10 +17,15 @@ class NoteEditor extends React.Component {
         const styles = getStyles(this.props.colors);
         const { note } = this.props;
         return (
-            <ViewContainer style={styles.container}>
+            <ViewContainer
+                iosBarStyle={this.props.colors.get('IOS_BARSTYLE')}
+                androidBarBgColor={this.props.colors.get('TITLEBAR_COLOR')}
+                style={styles.container}>
                 <MarkdownEditor
                     placeholder="Type in your note here..."
                     style={styles.editor}
+                    fontColor={this.props.colors.get('FONT_COLOR')}
+                    highlightColor={this.props.colors.get('ACCENT_COLOR')}
                     onChangeText={ this.onTextChange.bind(this) }
                     text={note.get('content')}/>
             </ViewContainer>
@@ -37,9 +42,6 @@ const getStyles = (colors) => StyleSheet.create({
         flex: 1,
         alignItems: 'stretch',
         backgroundColor: colors.get('BACKGROUND_COLOR')
-    },
-    text: {
-        color: colors.get('FONT_COLOR')
     },
     editor: {
         flex: 1,

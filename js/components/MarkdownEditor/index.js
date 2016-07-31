@@ -4,11 +4,15 @@ import {
     TextInput,
     StyleSheet
 } from 'react-native';
-import theme from '../../theme';
 
-const h1Exp = /^# .+/;
-const h2Exp = /^## .+/;
-const h3Exp = /^### .+/;
+import H1 from '../H1';
+import H2 from '../H2';
+import H3 from '../H3';
+import Link from '../Link';
+
+const h1Exp = /^# +.+/;
+const h2Exp = /^## +.+/;
+const h3Exp = /^### +.+/;
 const linkExp = /\[.+\]\(.+\)/;
 
 class MarkdownEditor extends React.Component {
@@ -36,7 +40,7 @@ class MarkdownEditor extends React.Component {
         }
         parts.push(_text);
 
-        parts = parts.map(this.getMarkdownTags);
+        parts = parts.map(this.getMarkdownTags.bind(this));
 
         return (
             <TextInput
@@ -56,19 +60,19 @@ class MarkdownEditor extends React.Component {
     getMarkdownTags(text) {
         //TODO: impl markdown here
         if (h1Exp.test(text)) {
-            return <Text key={text} style={styles.h1}>{text}</Text>;
+            return <H1 key={text}>{text}</H1>;
         }
 
         if (h2Exp.test(text)) {
-            return <Text key={text} style={styles.h2}>{text}</Text>;
+            return <H2 key={text}>{text}</H2>;
         }
 
         if (h3Exp.test(text)) {
-            return <Text key={text} style={styles.h3}>{text}</Text>;
+            return <H3 key={text}>{text}</H3>;
         }
 
         if (linkExp.test(text)) {
-            return <Text key={text} style={styles.link}>{text}</Text>;
+            return <Link key={text}>{text}</Link>;
         }
 
         return text;
@@ -79,6 +83,9 @@ MarkdownEditor.propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string.isRequired,
     onChangeText: PropTypes.func.isRequired,
+    fontColor: PropTypes.string,
+    highlightColor: PropTypes.string,
+    neutralColor: PropTypes.string,
     style: PropTypes.number // react-native StyleSheet
 };
 
@@ -88,24 +95,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         padding: 8,
         textAlignVertical: 'top'
-    },
-    h1: {
-        fontWeight: 'bold',
-        color: theme.FONT_COLOR,
-        fontSize: 24
-    },
-    h2: {
-        fontWeight: 'bold',
-        color: theme.FONT_COLOR,
-        fontSize: 21
-    },
-    h3: {
-        fontWeight: 'bold',
-        color: theme.FONT_COLOR,
-        fontSize: 18
-    },
-    link: {
-        color: theme.ACCENT_COLOR
     }
 });
 
