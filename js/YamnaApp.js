@@ -19,7 +19,9 @@ class YamnaNavBarComp extends React.Component {
                 navigationBarStyle={styles.navigationBar}
                 titleStyle={styles.title}
                 leftButtonStyle={styles.navigationButton}
-                rightButtonStyle={styles.navigationButton}/>
+                rightButtonStyle={styles.navigationButton}
+                leftButtonTextStyle={styles.navigationButtonText}
+                rightButtonTextStyle={styles.navigationButtonText}/>
         );
     }
 }
@@ -72,6 +74,9 @@ const getStyles = (colors) => StyleSheet.create({
                 top: 1
             }
         })
+    },
+    navigationButtonText: {
+        color: colors.get('ACCENT_COLOR')
     }
 });
 
